@@ -1,5 +1,6 @@
 import torch
 import json
+import math
 
 def text2token(tokenizer, text):
     text_list = tokenizer.tokenize(text)
@@ -28,3 +29,7 @@ def cat2digit(classes, cat_text, max_length):
     label_digit = [classes.get(item, item) for item in cat_text]
     label_digit_padded = label_digit + [len(classes)] * (max_length - len(label_digit))
     return torch.tensor(label_digit_padded)
+
+def to_batches(x, batch_size):
+    num_batches = math.ceil(x.size()[0] / batch_size)
+    return [x[batch_size * y: batch_size * (y+1),:] for y in range(num_batches)]
