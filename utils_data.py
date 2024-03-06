@@ -24,4 +24,4 @@ def read_data(json_file):
 def cat2digit(classes, cat_text, max_length):
     label_digit = [classes.get(item, item) for item in cat_text]
     label_digit_padded = label_digit + [len(classes)] * (max_length - len(label_digit))
-    return label_digit_padded
+    return torch.tensor(label_digit_padded)
