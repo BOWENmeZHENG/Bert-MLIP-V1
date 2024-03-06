@@ -15,7 +15,7 @@ def list2token(tokenizer, text_list, max_length):
 
 def read_data(json_file):
     data_list = []
-    with open("train.json") as f:
+    with open(json_file) as f:
         for jsonObj in f:
             record = json.loads(jsonObj)
             data_list.append(record)
