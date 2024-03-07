@@ -28,7 +28,8 @@ def read_data(json_file, max_length):
 def cat2digit(classes, cat_text, max_length):
     label_digit = [classes.get(item, item) for item in cat_text]
     label_digit_padded = label_digit + [len(classes)] * (max_length - len(label_digit))
-    return torch.tensor(label_digit_padded)
+    att_mask = [1] * len(label_digit) + [0] * (max_length - len(label_digit))
+    return torch.tensor(label_digit_padded), torch.tensor(att_mask)
 
 def to_batches(x, batch_size):
     num_batches = math.ceil(x.size()[0] / batch_size)
@@ -39,4 +40,4 @@ def accuracy(index_other, index_pad, y_pred, y):
     _, predicted_classes = y_pred[indices[0], :, indices[1]].max(dim=1)
     true_classes = y[indices[0], indices[1]]
     accuracy = torch.eq(predicted_classes, true_classes).sum() / true_classes.shape[0]
-    return accuracy#, predicted_classes, true_classes
+    return accuracy, predicted_classes, true_classes
